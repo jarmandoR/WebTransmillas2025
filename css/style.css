@@ -14064,17 +14064,19 @@ img.mfp-img {
     color: #000;
     background-color: rgba(0, 0, 0, 0.1); /* Efecto hover */
 }
-
 .popup {
     position: relative;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    max-width: 900px;
+    background: #fff;
+    padding: 30px 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    max-width: 500px;
     text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.close-btn {
+    position: absolute;
     top: 10px;
     right: 10px;
     background: none;
@@ -14083,18 +14085,14 @@ img.mfp-img {
     cursor: pointer;
     color: #666;
     padding: 5px 10px;
+    transition: color 0.3s ease;
 }
 
 .close-btn:hover {
     color: #000;
 }
 
-.popup {
-    position: relative;
-    /* ... resto de tus estilos existentes ... */
-}
-
-/* finPopApp */
+/* Íconos animados */
 .popup-icons {
     display: flex;
     justify-content: center;
@@ -14114,6 +14112,31 @@ img.mfp-img {
     50% {
         transform: translateY(-10px);
     }
+}
+
+/* Botón WhatsApp */
+.whatsapp-button {
+    display: inline-flex;
+    align-items: center;
+    background-color: #25d366;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    margin-top: 15px;
+}
+
+.whatsapp-button:hover {
+    background-color: #1ebd5a;
+}
+
+.whatsapp-button img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
 }
 
 
