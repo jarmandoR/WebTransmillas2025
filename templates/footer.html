@@ -1,0 +1,105 @@
+   
+   
+   <div class="container">
+          <div class="row row-40">
+            <div class="col-md-6 col-lg-3"><a class="footer-" href="index.html"><img src="images/logo1.png" alt="" width="150" height="30"/></a>
+              <p style="max-width: 85%">Nuestros servicios se estructuran para ofrecerte las mejores soluciones en transporte de carga pesada y paquetes.</p>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <h5 class="title">Información de Contacto</h5>
+              <ul class="contact-box">
+                <li>
+                  <div class="unit unit-horizontal unit-spacing-xxs">
+                    <div class="unit-left"><span class="icon mdi mdi-map-marker"></span></div>
+                    <div class="unit-body"><a href="https://www.google.com/maps/place/Transmillas+Logistica+y+Transportadora/@4.6444805,-74.073217,17z/data=!3m1!4b1!4m6!3m5!1s0x8e3f9b0c0c1d3889:0xaa375872fd07807e!8m2!3d4.6444752!4d-74.0706421!16s%2Fg%2F11n69qg7yy?entry=ttu">Carrera 20 # 56-26 Galerías</a></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="unit unit-horizontal unit-spacing-xxs">
+                    <div class="unit-left"><span class="icon mdi mdi-phone"></span></div>
+                    <div class="unit-body">
+                      <ul class="list-phones">
+                        <li><a >PBX:3103122</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="unit unit-horizontal unit-spacing-xxs">
+                    <div class="unit-left"><span class="icon mdi mdi-email"></span></div>
+                    <div class="unit-body"><a href="#">ventastransmillas@gmail.com</a></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="unit unit-horizontal unit-spacing-xxs">
+                    <div class="unit-left"><span class="icon mdi mdi-map-marker"></span></div>
+                    <div class="unit-body" id="miDiv"></div>
+                  </div>
+                 </li>
+              </ul>
+              <div class="group-md group-middle social-items"><a class="icon icon-md novi-icon mdi mdi-facebook" href="#"></a><a class="icon icon-md novi-icon mdi mdi-instagram" href="https://instagram.com/transmillascol?igshid=OGQ5ZDc2ODk2ZA=="></a><a class="icon icon-md novi-icon mdi mdi-linkedin" href="#"></a></div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+              <h5 class="title">Información General</h5>
+              <ul class="instagram-gallery" data-lightgallery="group">
+                <div id="texto-oculto" data-nosnippet="true" class="unit-body"><a href="https://sistema.transmillas.com">- Intranet</a></div>
+                
+                
+                <div class="unit-body"><a href="politica-privacidad.php">- Politica de Privacidad uso y tratamiento de datos</a></div>
+                
+                
+                
+                <!-- <div class="unit-body"><a href="faq.php">- Preguntas Frecuentes</a></div> -->
+                <!-- <div class="unit-body"><a href="https://www.superfinanciera.gov.co/jsp/loader.jsf?lServicio=Publicaciones&lTipo=publicaciones&lFuncion=loadContenidoPublicacion&id=10089684">- SUCIS Superfinanciera</a></div> -->
+                
+                <!-- <div class="unit-body"><a href="https://extranet.aviaseguros.com/portal/web/MenuGestorCRM3">- Consulta tu poliza</a></div>    -->
+                <!--<div class="unit-body"><a href="#">- Politica SARLAF</a></div> -->   
+              </ul>
+            </div>
+
+            
+            <div class="col-md-6 col-lg-3">
+              <h7 class="title">Superintendencia de transporte de Colombia</h7>
+              <p><a href="#" border="0" target="_blank"><img src="./images/client/55.jpg" width="200"></a></p>  
+              <!-- RD Mailform-->
+          
+            </div>
+          </div>
+          <!-- Rights-->
+          <p class="rights"><span>&copy;&nbsp;</span><span class="copyright-year"></span><span>&nbsp;</span><span>Copyright transmillas. All Rights Reserved</span></a></p>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+       <script>
+        const myDiv = document.getElementById('miDiv');
+         function contar() {
+            $.ajax({
+              url: 'templates/pruebavisitas.php',
+              type: 'POST',
+              dataType: 'text',
+              success: function(resultado) {
+                // Aquí puedes manipular el resultado obtenido del archivo PHP
+                var cont = resultado;
+                console.log(resultado);
+                myDiv.textContent = cont + 'Visitantes';
+              },
+              error: function(xhr, status, error) {
+                console.error(error);
+              }
+            });
+
+            // Obtener referencia al elemento div
+
+
+// Definir una variable
+
+
+// Asignar el valor de la variable al contenido del div
+
+          };
+        contar();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('texto-oculto').style.display = 'block';
+          });
+        </script>

@@ -1,0 +1,67 @@
+[{
+	"x":65,
+	"y":125,
+	"width":85,
+	"height":10,
+	"class":"link",
+	"data" : 
+		{
+			"url": "https://www.google.com/maps/place/Transmillas+Logistica+y+Transportadora/@4.6444805,-74.0728308,17z/data=!3m1!4b1!4m6!3m5!1s0x8e3f9b0c0c1d3889:0xaa375872fd07807e!8m2!3d4.6444752!4d-74.0706421!16s%2Fg%2F11n69qg7yy?hl=es"
+		}
+},
+{
+	"x":180,
+	"y":125,
+	"width":85,
+	"height":10,
+	"class":"link",
+	"data" : 
+		{
+			"url": "https://www.google.com/maps/place/Transmillas/@7.0813392,-70.7600055,17z/data=!3m1!4b1!4m6!3m5!1s0x8e6febf9fd00208d:0x6b437df4bcc5932c!8m2!3d7.0813339!4d-70.7578168!16s%2Fg%2F11f6ytxrdl?hl=es"
+		}
+},
+{
+	"x":295,
+	"y":125,
+	"width":85,
+	"height":10,
+	"class":"link",
+	"data" : 
+		{
+			"url": "https://www.google.com/maps/place/Transmillas/@6.4603997,-71.7304903,19z/data=!3m1!4b1!4m6!3m5!1s0x8e6ec7c126fc6de3:0xd1103afb41e2c25c!8m2!3d6.4603984!4d-71.7298466!16s%2Fg%2F11kqsddsvy?hl=es&entry=ttu"
+		}
+},
+{
+	"x":65,
+	"y":225,
+	"width":85,
+	"height":10,
+	"class":"link",
+	"data" : 
+		{
+			"url": "https://www.google.com/maps/place/Transmillas/@6.9534608,-71.8823264,17z/data=!3m1!4b1!4m6!3m5!1s0x8e6f338cd74e34af:0x3b657a28c444c971!8m2!3d6.9534555!4d-71.8780992!16s%2Fg%2F11t3zh6q9n?hl=es"
+		}
+},
+{
+	"x":180,
+	"y":225,
+	"width":85,
+	"height":10,
+	"class":"link",
+	"data" : 
+		{
+			"url": "https://www.google.com/maps/place/Transmillas+Logistica+y+Transportadora/@4.6444805,-74.0728308,17z/data=!3m1!4b1!4m6!3m5!1s0x8e3f9b0c0c1d3889:0xaa375872fd07807e!8m2!3d4.6444752!4d-74.0706421!16s%2Fg%2F11n69qg7yy?hl=es"
+		}
+},
+{
+	"x":295,
+	"y":225,
+	"width":85,
+	"height":10,
+	"class":"link",
+	"data" : 
+		{
+			"url": "https://www.google.com/maps/place/Transmillas/@7.1040707,-73.1137472,17z/data=!3m1!4b1!4m6!3m5!1s0x8e683fe229a24fc3:0x74a58c0116b47cac!8m2!3d7.1040654!4d-73.1115585!16s%2Fg%2F11h0bc71h2?hl=es"
+		}
+}
+]
