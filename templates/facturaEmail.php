@@ -188,7 +188,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $body .= "--$boundary--";
 
     if (mail($destinatario, $asunto, $body, $headers)) {
-        header("Location: https://transmillas.com/?enviado=ok#index");
+        header("Location: https://transmillas.com/index.php?enviado=ok");
         exit();
     } else {
         echo "Error al enviar el correo. Intenta más tarde.";
