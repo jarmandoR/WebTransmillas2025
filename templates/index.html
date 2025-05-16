@@ -1771,6 +1771,11 @@
  <section id="factura" class="section section-lg">
   <div class="container text-center">
     <h2>Solicita tu factura aquí.</h2>
+    <?php if (isset($_GET['enviado']) && $_GET['enviado'] == 'ok'): ?>
+  <div class="alert alert-success" role="alert">
+    ¡Tu solicitud ha sido enviada correctamente! Pronto recibirás tu factura por correo.
+  </div>
+<?php endif; ?>
     <div class="row no-gutters justify-content-center">
       <div class="container">
 

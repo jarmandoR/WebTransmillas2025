@@ -198,10 +198,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $body .= "--$boundary--";
 
     if (mail($destinatario, $asunto, $body, $headers)) {
-        echo "Solicitud enviada con éxito. Revisa tu correo.";
-    } else {
-        echo "Error al enviar el correo. Intenta más tarde.";
-    }
+    // Redirigir con mensaje de éxito
+    header("Location: https://transmillas.com/?enviado=ok#factura");
+    exit();
+} else {
+    echo "Error al enviar el correo. Intenta más tarde.";
+}
 }
 ?>
 
