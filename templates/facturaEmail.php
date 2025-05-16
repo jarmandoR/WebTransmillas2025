@@ -155,8 +155,8 @@ $filename1 = $_FILES['file1']['name'];
 $filename2 = $_FILES['file2']['name'];
 
     // Configuración del correo
-    $remitente = "paginaweb@transmillas.com";
-    $destinatario = "ventastransmillas@gmail.com";
+    $remitente = "sharikgonzalezb@gmail.com";
+    $destinatario = "sharikgonzalezb@gmail.com";
     // $destinatario = "jose523a@gmail.com";
     $asunto = "Solicitud factura ".$filename1."";
 
