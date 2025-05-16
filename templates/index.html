@@ -1768,59 +1768,38 @@
           <!-- </div>      -->
         </div>
       </section>
- 
-   
-               <section id="factura" class="section section-lg">
-                 <div class="container text-center">
-                   <h2>Solicita tu factura aqui.</h2>
-                   <div class="row no-gutters justify-content-center">
-                     <div class="container">
-                      <div class="container">
-                        
-                        <!-- <form action="avia-seguros/../bat/rd-mailform.php" method="POST" enctype="multipart/form-data">
-                          <label for="imagen">Imagen:</label>
-                          <input type="file" name="imagen" id="imagen">
-                          <input type="submit" value="Enviar">
-                        </form> -->
+ <section id="factura" class="section section-lg">
+  <div class="container text-center">
+    <h2>Solicita tu factura aquí.</h2>
+    <div class="row no-gutters justify-content-center">
+      <div class="container">
 
+        <form action="https://www.transmillas.com/templates/facturaEmail.php" method="POST" enctype="multipart/form-data">
+          <div id="campos-dinamicos">
 
-                        <form action="https://www.transmillas.com/templates/facturaEmail.php" method="POST" enctype="multipart/form-data">
-                          <div id="campos-dinamicos">
-                            <!-- <div class="form-group">
-                              <label for="nombre">Cargar imagen del rut </label>
-                              <input type="file" class="form-control" name="rut" placeholder="Ingrese su rut">
-                            </div> -->
-                            <!-- <div class="form-group">
-                              <label for="Email">Email</label>
-                              <input type="file" class="form-control" name="email" placeholder="Ingrese email donde quiere que llegue la factura">
-                            </div> -->
-                            <div class="form-group">
-                              <label for="imagen">Cargar imagen del rutssss:</label>
-                              <input type="file" class="form-control"  name="file1" id="file1" required placeholder="Ingrese su rut">
-                            </div>
-                            <div class="form-group"></div>
-                              <label for="imagen">Cargar imagen(es) de remesa:</label>
-                              <input type="file" class="form-control"  name="file2" id="file2" required placeholder="Ingrese numero de remesa">
-                            </div>
-                            <div class="form-group"></div>
-                              <label for="imagen">Indica tu correo:</label>
-                              <input type="text" class="form-control"  name="correo" id="correo" required placeholder="Direccion de correo donde quieres recibir tu factura">
-                            </div>
+            <div class="form-group">
+              <label for="file1">Cargar imagen del RUT:</label>
+              <input type="file" class="form-control" name="file1" id="file1" required>
+            </div>
 
-                              <!-- <label for="nombre">Cargar imagen(es) de remesa</label>
-                              <div class="form-group">  
-                              <input type="file" class="form-control" name="remesa1" placeholder="Ingrese numero de remesa">
-                               </div> -->
-                            </div>
-                          </div>
-                          
-                          <button type="submit" class="btn btn-primary">Enviar</button>
-                        </form>
-                      </div>
-                      </div>  
-           </div>
-         </div>
-       </section>
+            <div class="form-group">
+              <label for="file2">Cargar imagen(es) de remesa:</label>
+              <input type="file" class="form-control" name="file2" id="file2" required>
+            </div>
+
+            <div class="form-group">
+              <label for="correo">Indica tu correo:</label>
+              <input type="text" class="form-control" name="correo" id="correo" required placeholder="Dirección de correo donde quieres recibir tu factura">
+            </div>
+
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</section>
            <!-- The Best Banking Choise-->
     <section class="section section-lg" id="pagos">
       <div class="container">

@@ -143,74 +143,67 @@
 <?php
 
 
-
+<?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-$EmailEnvio=$_POST['correo'];
-$file1 = $_FILES['file1']['tmp_name'];
-$file2 = $_FILES['file2']['tmp_name'];
+    $EmailEnvio = filter_var($_POST['correo'], FILTER_SANITIZE_EMAIL);
+    if (!filter_var($EmailEnvio, FILTER_VALIDATE_EMAIL)) {
+        die("Correo electrónico inválido.");
+    }
 
-// Nombre de los archivos adjuntos
-$filename1 = $_FILES['file1']['name'];
-$filename2 = $_FILES['file2']['name'];
+    if ($_FILES['file1']['error'] !== UPLOAD_ERR_OK || $_FILES['file2']['error'] !== UPLOAD_ERR_OK) {
+        die("Error al subir los archivos.");
+    }
 
-    // Configuración del correo
+    $file1 = $_FILES['file1']['tmp_name'];
+    $file2 = $_FILES['file2']['tmp_name'];
+    $filename1 = basename($_FILES['file1']['name']);
+    $filename2 = basename($_FILES['file2']['name']);
+
     $remitente = "sharikgonzalezb@gmail.com";
     $destinatario = "sharikgonzalezb@gmail.com";
-    // $destinatario = "jose523a@gmail.com";
-    $asunto = "Solicitud factura ".$filename1."";
+    $asunto = "Solicitud factura " . $filename1;
 
+    $message = "Nueva solicitud de recibo.\n";
+    $message .= "Enviar factura a la dirección de correo: $EmailEnvio";
 
+    $fileContent1 = file_get_contents($file1);
+    $fileContent2 = file_get_contents($file2);
 
-$message ="Nueva solicitud de recibo";
+    $boundary = md5(time());
+    $headers = "From: Transmillas.com <$remitente>\r\n";
+    $headers .= "Reply-To: $remitente\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
 
-$fileContent1 = file_get_contents($file1);
-$fileContent2 = file_get_contents($file2);
+    $body = "--$boundary\r\n";
+    $body .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $body .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+    $body .= $message . "\r\n\r\n";
 
-// Encabezados del correo
-$boundary = md5(time());
-$headers = "From: Transmillas.com\r\n";
-$headers .= "Reply-To: Transmillas.com\r\n";
-$headers .= "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
+    // Adjuntar archivo 1
+    $body .= "--$boundary\r\n";
+    $body .= "Content-Type: application/octet-stream; name=\"$filename1\"\r\n";
+    $body .= "Content-Transfer-Encoding: base64\r\n";
+    $body .= "Content-Disposition: attachment; filename=\"$filename1\"\r\n\r\n";
+    $body .= chunk_split(base64_encode($fileContent1)) . "\r\n";
 
-// Cuerpo del correo
-$body = "--$boundary\r\n";
-$body .= "Content-Type: text/plain; charset=ISO-8859-1\r\n";
-$body .= "Content-Transfer-Encoding: 7bit\r\n";
-$body .= "\r\n";
-$body .= "$message\r\n";
-$body .= "Enviar factura a la direccion de correo $EmailEnvio\r\n";
-$body .= "--$boundary\r\n";
+    // Adjuntar archivo 2
+    $body .= "--$boundary\r\n";
+    $body .= "Content-Type: application/octet-stream; name=\"$filename2\"\r\n";
+    $body .= "Content-Transfer-Encoding: base64\r\n";
+    $body .= "Content-Disposition: attachment; filename=\"$filename2\"\r\n\r\n";
+    $body .= chunk_split(base64_encode($fileContent2)) . "\r\n";
 
-// Adjunto 1
-$body .= "Content-Type: application/octet-stream; name=\"$filename1\"\r\n";
-$body .= "Content-Transfer-Encoding: base64\r\n";
-$body .= "Content-Disposition: attachment; filename=\"$filename1\"\r\n";
-$body .= "\r\n";
-$body .= chunk_split(base64_encode($fileContent1));
-$body .= "--$boundary\r\n";
+    $body .= "--$boundary--";
 
-// Adjunto 2
-$body .= "Content-Type: application/octet-stream; name=\"$filename2\"\r\n";
-$body .= "Content-Transfer-Encoding: base64\r\n";
-$body .= "Content-Disposition: attachment; filename=\"$filename2\"\r\n";
-$body .= "\r\n";
-$body .= chunk_split(base64_encode($fileContent2));
-$body .= "--$boundary--\r\n";
-
-
-    // Envío del correo
     if (mail($destinatario, $asunto, $body, $headers)) {
-   
-
-    //   header("Location: https://transmillas.com/#factura");
-    //   exit(); 
+        echo "Solicitud enviada con éxito. Revisa tu correo.";
     } else {
-    
-
+        echo "Error al enviar el correo. Intenta más tarde.";
     }
-  }
+}
+?>
 
 
 
