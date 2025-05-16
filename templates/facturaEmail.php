@@ -1,7 +1,7 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Página de calificación</title>
     <style>
         body {
@@ -15,6 +15,11 @@
         }
 
         .rating-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 500px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -27,7 +32,9 @@
 
         .rating-stars {
             display: flex;
+            flex-direction: row-reverse;
             justify-content: center;
+            margin-bottom: 15px;
         }
 
         .rating-stars input {
@@ -35,118 +42,99 @@
         }
 
         .rating-stars label {
-            font-size: 50px;
+            font-size: 40px;
             color: #ccc;
             cursor: pointer;
             transition: color 0.3s;
         }
 
         .rating-stars input:checked ~ label,
-        .rating-stars input:checked + label {
+        .rating-stars label:hover,
+        .rating-stars label:hover ~ label {
             color: #ffcc00;
         }
 
-        .submit-button {
+        textarea, input[type="email"], input[type="file"] {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+            resize: vertical;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            text-align: left;
+            width: 100%;
+        }
+
+        button {
             margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
         }
 
-        .textarea {
-
-            height: 100px;
-            
-            width: 400px;
-
+        button:hover {
+            background-color: #0056b3;
         }
-
-    
-        .estrella1 {
-        order: 5;
-        }
-        .estrella2 {
-        order: 4;
-        }
-        .estrella3 {
-        order: 3;
-        }
-        .estrella4 {
-        order: 2;
-        }
-        .estrella5 {
-        order: 1;
-        }
-        
 
     </style>
 </head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <body>
-    <div class="rating-container">
+    <form class="rating-container" action="facturaEmail.php" method="POST" enctype="multipart/form-data">
         <h1>Antes de completar la solicitud califica nuestro servicio</h1>
+
         <div class="rating-stars">
-            <input type="radio" id="star1" name="rating" value="5">
+            <input type="radio" id="star1" name="rating" value="5" required>
             <label for="star1" class="estrella1">&#9733;</label>
+
             <input type="radio" id="star2" name="rating" value="4">
             <label for="star2" class="estrella2">&#9733;</label>
+
             <input type="radio" id="star3" name="rating" value="3">
             <label for="star3" class="estrella3">&#9733;</label>
+
             <input type="radio" id="star4" name="rating" value="2">
             <label for="star4" class="estrella4">&#9733;</label>
+
             <input type="radio" id="star5" name="rating" value="1">
             <label for="star5" class="estrella5">&#9733;</label>
         </div>
-    
-        <div class="rating-stars">   
-                
-                                <div id="campos-dinamicos">
-                                
-                                    <div class="form-group"><label for="imagen">Dejanos tu opinion:</label></div>
-                                    
-                                    <textarea  type="text" class="textarea"  name="opinion" id="opinion" placeholder=""></textarea>
-                                </div>
-                                <!-- <button type="submit" class="btn btn-primary">Enviar</button> -->
-                
-        </div>
-        <button class="submit-button" onclick="submitRating()">Continuar</button>
-    </div>
 
-    <script>
-        function submitRating() {
-            const selectedRating = document.querySelector('input[name="rating"]:checked').value;
-            const textarea = document.getElementById("opinion").value;
-            // Aquí puedes hacer algo con la calificación seleccionada, como enviarla al servidor
+        <label for="opinion">Dejanos tu opinion:</label>
+        <textarea name="opinion" id="opinion" placeholder="" required></textarea>
 
+        <label for="correo">Correo electrónico:</label>
+        <input type="email" name="correo" id="correo" required>
 
-            var datos = "valor1=" + selectedRating + "&valor2=" + textarea;
-            // Ejemplo de cómo mostrar la calificación en la consola
-            // alert(selectedRating);
-            // console.log(`Calificación seleccionada: ${selectedRating} estrellas`);
+        <label for="file1">Archivo 1:</label>
+        <input type="file" name="file1" id="file1" required>
 
-                $.ajax({
-                    url: '../sistema/guardaCalificacion.php',
-                    data: datos,
-                    processData: false,
-                    contentType: false,
-                    type: 'GET',
-                    success: function(response) {
-                        // Manejar la respuesta del servidor
-                        location.href = "https://transmillas.com/#factura";
-                    }
-                });
+        <label for="file2">Archivo 2:</label>
+        <input type="file" name="file2" id="file2" required>
 
-
-
-
-        }
-    </script>
+        <button type="submit">Enviar</button>
+    </form>
 </body>
 </html>
-<?php
-
-
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $EmailEnvio = filter_var($_POST['correo'], FILTER_SANITIZE_EMAIL);
+    $opinion = htmlspecialchars($_POST['opinion']);
+    $rating = isset($_POST['rating']) ? intval($_POST['rating']) : 0;
+
     if (!filter_var($EmailEnvio, FILTER_VALIDATE_EMAIL)) {
         die("Correo electrónico inválido.");
     }
@@ -165,7 +153,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $asunto = "Solicitud factura " . $filename1;
 
     $message = "Nueva solicitud de recibo.\n";
-    $message .= "Enviar factura a la dirección de correo: $EmailEnvio";
+    $message .= "Enviar factura a la dirección de correo: $EmailEnvio\n";
+    $message .= "Calificación: $rating estrellas\n";
+    $message .= "Opinión: $opinion\n";
 
     $fileContent1 = file_get_contents($file1);
     $fileContent2 = file_get_contents($file2);
@@ -198,71 +188,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $body .= "--$boundary--";
 
     if (mail($destinatario, $asunto, $body, $headers)) {
-    // Redirigir con mensaje de éxito
-    header("Location: https://transmillas.com/?enviado=ok#factura");
-    exit();
-} else {
-    echo "Error al enviar el correo. Intenta más tarde.";
+        header("Location: https://transmillas.com/?enviado=ok#factura");
+        exit();
+    } else {
+        echo "Error al enviar el correo. Intenta más tarde.";
+    }
 }
-}
-?>
-
-
-
-
-
-
-//   $to = 'correo_destino';
-// $subject = 'Adjuntos de correo';
-// $message = 'Adjuntos de correo';
-
-// // Archivos adjuntos
-// $file1 = 'ruta_archivo1';
-// $file2 = 'ruta_archivo2';
-
-// // Nombre de los archivos adjuntos
-// $filename1 = basename($file1);
-// $filename2 = basename($file2);
-
-// // Contenido del archivo adjunto
-// $fileContent1 = file_get_contents($file1);
-// $fileContent2 = file_get_contents($file2);
-
-// // Encabezados del correo
-// $boundary = md5(time());
-// $headers = "From: tu_correo\r\n";
-// $headers .= "Reply-To: tu_correo\r\n";
-// $headers .= "MIME-Version: 1.0\r\n";
-// $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
-
-// // Cuerpo del correo
-// $body = "--$boundary\r\n";
-// $body .= "Content-Type: text/plain; charset=ISO-8859-1\r\n";
-// $body .= "Content-Transfer-Encoding: 7bit\r\n";
-// $body .= "\r\n";
-// $body .= "$message\r\n";
-// $body .= "--$boundary\r\n";
-
-// // Adjunto 1
-// $body .= "Content-Type: application/octet-stream; name=\"$filename1\"\r\n";
-// $body .= "Content-Transfer-Encoding: base64\r\n";
-// $body .= "Content-Disposition: attachment; filename=\"$filename1\"\r\n";
-// $body .= "\r\n";
-// $body .= chunk_split(base64_encode($fileContent1));
-// $body .= "--$boundary\r\n";
-
-// // Adjunto 2
-// $body .= "Content-Type: application/octet-stream; name=\"$filename2\"\r\n";
-// $body .= "Content-Transfer-Encoding: base64\r\n";
-// $body .= "Content-Disposition: attachment; filename=\"$filename2\"\r\n";
-// $body .= "\r\n";
-// $body .= chunk_split(base64_encode($fileContent2));
-// $body .= "--$boundary--\r\n";
-
-// // Envío del correo
-// if (mail($to, $subject, $body, $headers)) {
-//     echo 'Correo enviado correctamente.';
-// } else {
-//     echo 'Error al enviar el correo.';
-// }
 ?>
