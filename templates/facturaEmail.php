@@ -148,8 +148,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $filename1 = basename($_FILES['file1']['name']);
     $filename2 = basename($_FILES['file2']['name']);
 
-    $remitente = "sharikgonzalezb@gmail.com";
-    $destinatario = "szurrego@ucundinamarca.edu.co";
+    $remitente = "sistema@transmillas.com";
+    $destinatario = "sharikgonzalezb@gmail.com";
     $asunto = "Solicitud factura " . $filename1;
 
     $message = "Nueva solicitud de recibo.\n";
