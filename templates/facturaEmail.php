@@ -148,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $filename1 = basename($_FILES['file1']['name']);
     $filename2 = basename($_FILES['file2']['name']);
 
-    $remitente = "paginaweb@sistema.transmillas.com";
+    $remitente = "paginaweb@transmillas.com";
     $destinatario = "sharikgonzalezb@gmail.com";
     $asunto = "Solicitud factura " . $filename1;
 
