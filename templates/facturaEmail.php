@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $filename2 = $_SESSION['filename2'];
 
         $remitente = "paginaweb@transmillas.com";
-        $destinatario = "sharikgonzalezb@gmail.com";
+        $destinatario = "ventastransmillas@gmail.com";
         $asunto = "Solicitud factura con calificación";
 
         $mensaje = "Nueva solicitud de factura.\n";
