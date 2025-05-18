@@ -25,9 +25,10 @@
             align-items: center;
         }
 
-        h1 {
+        h1, h2 {
             font-size: 24px;
             margin-bottom: 20px;
+            text-align: center;
         }
 
         .rating-stars {
@@ -89,31 +90,17 @@
             background-color: #0056b3;
         }
 
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <form class="rating-container" action="facturaEmail.php" method="POST" enctype="multipart/form-data">
-        <h1>Antes de completar la solicitud califica nuestro servicio</h1>
 
-        <div class="rating-stars">
-            <input type="radio" id="star1" name="rating" value="5" required>
-            <label for="star1" class="estrella1">&#9733;</label>
-
-            <input type="radio" id="star2" name="rating" value="4">
-            <label for="star2" class="estrella2">&#9733;</label>
-
-            <input type="radio" id="star3" name="rating" value="3">
-            <label for="star3" class="estrella3">&#9733;</label>
-
-            <input type="radio" id="star4" name="rating" value="2">
-            <label for="star4" class="estrella4">&#9733;</label>
-
-            <input type="radio" id="star5" name="rating" value="1">
-            <label for="star5" class="estrella5">&#9733;</label>
-        </div>
-
-        <label for="opinion">Dejanos tu opinion:</label>
-        <textarea name="opinion" id="opinion" placeholder="" required></textarea>
+<form class="rating-container" id="mainForm" action="" method="POST" enctype="multipart/form-data">
+    <!-- Paso 1: Archivos -->
+    <div id="step1">
+        <h2>Sube tus archivos</h2>
 
         <label for="correo">Correo electrónico:</label>
         <input type="email" name="correo" id="correo" required>
@@ -124,10 +111,53 @@
         <label for="file2">Archivo 2:</label>
         <input type="file" name="file2" id="file2" required>
 
+        <button type="button" onclick="mostrarPaso2()">Continuar</button>
+    </div>
+
+    <!-- Paso 2: Calificación -->
+    <div id="step2" class="hidden">
+        <h1>Antes de completar la solicitud califica nuestro servicio</h1>
+
+        <div class="rating-stars">
+            <input type="radio" id="star1" name="rating" value="5" required>
+            <label for="star1">&#9733;</label>
+
+            <input type="radio" id="star2" name="rating" value="4">
+            <label for="star2">&#9733;</label>
+
+            <input type="radio" id="star3" name="rating" value="3">
+            <label for="star3">&#9733;</label>
+
+            <input type="radio" id="star4" name="rating" value="2">
+            <label for="star4">&#9733;</label>
+
+            <input type="radio" id="star5" name="rating" value="1">
+            <label for="star5">&#9733;</label>
+        </div>
+
+        <label for="opinion">Déjanos tu opinión:</label>
+        <textarea name="opinion" id="opinion" required></textarea>
+
         <button type="submit">Enviar</button>
-    </form>
-</body>
-</html>
+    </div>
+</form>
+
+<script>
+function mostrarPaso2() {
+    const correo = document.getElementById('correo').value.trim();
+    const file1 = document.getElementById('file1').files.length;
+    const file2 = document.getElementById('file2').files.length;
+
+    if (!correo || file1 === 0 || file2 === 0) {
+        alert("Por favor completa todos los campos antes de continuar.");
+        return;
+    }
+
+    document.getElementById('step1').classList.add('hidden');
+    document.getElementById('step2').classList.remove('hidden');
+}
+</script>
+
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -195,3 +225,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
+</body>
+</html>
