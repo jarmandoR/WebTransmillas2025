@@ -39,9 +39,7 @@
         }
 
         .rating-stars input {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
+            display: none;
         }
 
         .rating-stars label {
@@ -90,43 +88,72 @@
 </head>
 <body>
     <form class="rating-container" action="" method="POST" enctype="multipart/form-data">
-        <h1>Antes de completar la solicitud califica nuestro servicio</h1>
+        <!-- Paso 1: Archivos -->
+        <div id="step1">
+            <h1>Completa tu solicitud</h1>
 
-        <div class="rating-stars">
-            <input type="radio" id="star1" name="rating" value="5" required>
-            <label for="star1">&#9733;</label>
+            <label for="correo">Correo electrónico:</label>
+            <input type="email" name="correo" id="correo" required>
 
-            <input type="radio" id="star2" name="rating" value="4">
-            <label for="star2">&#9733;</label>
+            <label for="file1">Archivo 1:</label>
+            <input type="file" name="file1" id="file1" required>
 
-            <input type="radio" id="star3" name="rating" value="3">
-            <label for="star3">&#9733;</label>
+            <label for="file2">Archivo 2:</label>
+            <input type="file" name="file2" id="file2" required>
 
-            <input type="radio" id="star4" name="rating" value="2">
-            <label for="star4">&#9733;</label>
-
-            <input type="radio" id="star5" name="rating" value="1">
-            <label for="star5">&#9733;</label>
+            <button type="button" onclick="mostrarPaso2()">Siguiente</button>
         </div>
 
-        <label for="opinion">Déjanos tu opinión:</label>
-        <textarea name="opinion" id="opinion" required></textarea>
+        <!-- Paso 2: Calificación -->
+        <div id="step2" style="display:none;">
+            <h1>Califica nuestro servicio</h1>
 
-        <label for="correo">Correo electrónico:</label>
-        <input type="email" name="correo" id="correo" required>
+            <div class="rating-stars">
+                <input type="radio" id="star1" name="rating" value="5" required>
+                <label for="star1">&#9733;</label>
 
-        <label for="file1">Archivo 1:</label>
-        <input type="file" name="file1" id="file1" required>
+                <input type="radio" id="star2" name="rating" value="4">
+                <label for="star2">&#9733;</label>
 
-        <label for="file2">Archivo 2:</label>
-        <input type="file" name="file2" id="file2" required>
+                <input type="radio" id="star3" name="rating" value="3">
+                <label for="star3">&#9733;</label>
 
-        <button type="submit">Enviar</button>
+                <input type="radio" id="star4" name="rating" value="2">
+                <label for="star4">&#9733;</label>
+
+                <input type="radio" id="star5" name="rating" value="1">
+                <label for="star5">&#9733;</label>
+            </div>
+
+            <label for="opinion">Déjanos tu opinión:</label>
+            <textarea name="opinion" id="opinion" required></textarea>
+
+            <button type="submit">Finalizar y Enviar</button>
+        </div>
     </form>
+
+    <script>
+        function mostrarPaso2() {
+            const correo = document.getElementById('correo').value.trim();
+            const file1 = document.getElementById('file1').files.length;
+            const file2 = document.getElementById('file2').files.length;
+
+            if (!correo) {
+                alert("Por favor ingresa tu correo.");
+                return;
+            }
+            if (file1 === 0 || file2 === 0) {
+                alert("Por favor selecciona ambos archivos.");
+                return;
+            }
+
+            document.getElementById("step1").style.display = "none";
+            document.getElementById("step2").style.display = "block";
+        }
+    </script>
 
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
     $EmailEnvio = filter_var($_POST['correo'], FILTER_SANITIZE_EMAIL);
     $opinion = htmlspecialchars($_POST['opinion']);
     $rating = isset($_POST['rating']) ? intval($_POST['rating']) : 0;
