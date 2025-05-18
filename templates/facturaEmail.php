@@ -39,7 +39,9 @@
         }
 
         .rating-stars input {
-            display: none;
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
         }
 
         .rating-stars label {
