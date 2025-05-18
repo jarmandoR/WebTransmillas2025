@@ -1,125 +1,102 @@
 <?php
 session_start();
 
-$error = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!isset($_SESSION['fase'])) {
+        // Primera fase: Recibir archivos y correo
+        $EmailEnvio = filter_var($_POST['correo'], FILTER_SANITIZE_EMAIL);
+        if (!filter_var($EmailEnvio, FILTER_VALIDATE_EMAIL)) {
+            die("Correo electrónico inválido.");
+        }
 
-// Paso 1: Recibir archivos + correo
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['step']) && $_POST['step'] === '1') {
-    if (!filter_var($_POST['correo'], FILTER_VALIDATE_EMAIL)) {
-        $error = "Correo electrónico inválido.";
-    } elseif ($_FILES['file1']['error'] !== UPLOAD_ERR_OK || $_FILES['file2']['error'] !== UPLOAD_ERR_OK) {
-        $error = "Error al subir los archivos.";
-    } else {
-        $_SESSION['correo'] = $_POST['correo'];
+        if ($_FILES['file1']['error'] !== UPLOAD_ERR_OK || $_FILES['file2']['error'] !== UPLOAD_ERR_OK) {
+            die("Error al subir los archivos.");
+        }
 
-        $tmpDir = sys_get_temp_dir() . '/uploads/';
-        if (!is_dir($tmpDir)) mkdir($tmpDir, 0777, true);
+        // Guardar archivos temporalmente
+        $_SESSION['correo'] = $EmailEnvio;
+        $_SESSION['file1'] = base64_encode(file_get_contents($_FILES['file1']['tmp_name']));
+        $_SESSION['filename1'] = basename($_FILES['file1']['name']);
+        $_SESSION['file2'] = base64_encode(file_get_contents($_FILES['file2']['tmp_name']));
+        $_SESSION['filename2'] = basename($_FILES['file2']['name']);
+        $_SESSION['fase'] = 'calificar';
 
-        $file1Path = $tmpDir . uniqid('file1_') . '_' . basename($_FILES['file1']['name']);
-        $file2Path = $tmpDir . uniqid('file2_') . '_' . basename($_FILES['file2']['name']);
+    } else if ($_SESSION['fase'] == 'calificar') {
+        // Segunda fase: recibir opinión y calificación y enviar correo
+        $opinion = htmlspecialchars($_POST['opinion']);
+        $rating = isset($_POST['rating']) ? intval($_POST['rating']) : 0;
 
-        move_uploaded_file($_FILES['file1']['tmp_name'], $file1Path);
-        move_uploaded_file($_FILES['file2']['tmp_name'], $file2Path);
+        $EmailEnvio = $_SESSION['correo'];
+        $contenido1 = base64_decode($_SESSION['file1']);
+        $contenido2 = base64_decode($_SESSION['file2']);
+        $filename1 = $_SESSION['filename1'];
+        $filename2 = $_SESSION['filename2'];
 
-        $_SESSION['file1'] = $file1Path;
-        $_SESSION['file1name'] = basename($_FILES['file1']['name']);
-        $_SESSION['file2'] = $file2Path;
-        $_SESSION['file2name'] = basename($_FILES['file2']['name']);
+        $remitente = "paginaweb@transmillas.com";
+        $destinatario = "sharikgonzalezb@gmail.com";
+        $asunto = "Solicitud factura con calificación";
 
-        $_SESSION['step'] = 2;
-    }
-}
+        $mensaje = "Nueva solicitud de factura.\n";
+        $mensaje .= "Correo: $EmailEnvio\n";
+        $mensaje .= "Calificación: $rating estrellas\n";
+        $mensaje .= "Opinión: $opinion\n";
 
-// Paso 2: Recibir calificación y opinión y enviar correo
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['step']) && $_POST['step'] === '2') {
-    if (empty($_SESSION['correo']) || empty($_SESSION['file1']) || empty($_SESSION['file2'])) {
-        $error = "No hay datos suficientes. Por favor, sube los archivos primero.";
-        unset($_SESSION['step']);
-    } else {
-        $rating = intval($_POST['rating'] ?? 0);
-        $opinion = trim($_POST['opinion'] ?? '');
+        $boundary = md5(time());
 
-        if ($rating < 1 || $rating > 5) {
-            $error = "Selecciona una calificación válida.";
-        } elseif (empty($opinion)) {
-            $error = "Escribe tu opinión.";
+        $headers = "From: Transmillas.com <$remitente>\r\n";
+        $headers .= "Reply-To: $remitente\r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
+
+        $cuerpo = "--$boundary\r\n";
+        $cuerpo .= "Content-Type: text/plain; charset=UTF-8\r\n";
+        $cuerpo .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+        $cuerpo .= $mensaje . "\r\n\r\n";
+
+        // Adjuntar archivos
+        $cuerpo .= "--$boundary\r\n";
+        $cuerpo .= "Content-Type: application/octet-stream; name=\"$filename1\"\r\n";
+        $cuerpo .= "Content-Transfer-Encoding: base64\r\n";
+        $cuerpo .= "Content-Disposition: attachment; filename=\"$filename1\"\r\n\r\n";
+        $cuerpo .= chunk_split(base64_encode($contenido1)) . "\r\n";
+
+        $cuerpo .= "--$boundary\r\n";
+        $cuerpo .= "Content-Type: application/octet-stream; name=\"$filename2\"\r\n";
+        $cuerpo .= "Content-Transfer-Encoding: base64\r\n";
+        $cuerpo .= "Content-Disposition: attachment; filename=\"$filename2\"\r\n\r\n";
+        $cuerpo .= chunk_split(base64_encode($contenido2)) . "\r\n";
+
+        $cuerpo .= "--$boundary--";
+
+        session_destroy();
+
+        if (mail($destinatario, $asunto, $cuerpo, $headers)) {
+            header("Location: https://transmillas.com/?enviado=ok#factura");
+            exit();
         } else {
-            $correo = $_SESSION['correo'];
-            $file1Path = $_SESSION['file1'];
-            $file2Path = $_SESSION['file2'];
-            $file1Name = $_SESSION['file1name'];
-            $file2Name = $_SESSION['file2name'];
-
-            $contenido1 = file_get_contents($file1Path);
-            $contenido2 = file_get_contents($file2Path);
-
-            $remitente = "paginaweb@transmillas.com";
-            $destinatario = "sharikgonzalezb@gmail.com";
-            $asunto = "Solicitud factura con calificación";
-
-            $mensaje = "Nueva solicitud de factura.\n";
-            $mensaje .= "Correo: $correo\n";
-            $mensaje .= "Calificación: $rating estrellas\n";
-            $mensaje .= "Opinión: $opinion\n";
-
-            $boundary = md5(time());
-
-            $headers = "From: Transmillas.com <$remitente>\r\n";
-            $headers .= "Reply-To: $remitente\r\n";
-            $headers .= "MIME-Version: 1.0\r\n";
-            $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
-
-            $cuerpo = "--$boundary\r\n";
-            $cuerpo .= "Content-Type: text/plain; charset=UTF-8\r\n";
-            $cuerpo .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
-            $cuerpo .= $mensaje . "\r\n\r\n";
-
-            // Adjuntar archivo 1
-            $cuerpo .= "--$boundary\r\n";
-            $cuerpo .= "Content-Type: application/octet-stream; name=\"$file1Name\"\r\n";
-            $cuerpo .= "Content-Transfer-Encoding: base64\r\n";
-            $cuerpo .= "Content-Disposition: attachment; filename=\"$file1Name\"\r\n\r\n";
-            $cuerpo .= chunk_split(base64_encode($contenido1)) . "\r\n";
-
-            // Adjuntar archivo 2
-            $cuerpo .= "--$boundary\r\n";
-            $cuerpo .= "Content-Type: application/octet-stream; name=\"$file2Name\"\r\n";
-            $cuerpo .= "Content-Transfer-Encoding: base64\r\n";
-            $cuerpo .= "Content-Disposition: attachment; filename=\"$file2Name\"\r\n\r\n";
-            $cuerpo .= chunk_split(base64_encode($contenido2)) . "\r\n";
-
-            $cuerpo .= "--$boundary--";
-
-            if (mail($destinatario, $asunto, $cuerpo, $headers)) {
-                // Borrar archivos y limpiar sesión
-                unlink($file1Path);
-                unlink($file2Path);
-                session_destroy();
-
-                header("Location: https://transmillas.com/?enviado=ok#factura");
-                exit();
-            } else {
-                $error = "Error al enviar el correo. Intenta más tarde.";
-            }
+            echo "<p style='color:red; text-align:center;'>Error al enviar el correo. Intenta más tarde.</p>";
         }
     }
 }
-
-$step = $_SESSION['step'] ?? 1;
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Solicitud de factura con calificación</title>
+    <title>Calificación y envío de archivos</title>
     <style>
         body {
-            margin: 0; padding: 0; background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+            background-color: #f1f1f1;
             font-family: Arial, sans-serif;
-            display: flex; justify-content: center; align-items: center; height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        .container {
+        .rating-container {
             background-color: white;
             padding: 30px;
             border-radius: 12px;
@@ -179,58 +156,45 @@ $step = $_SESSION['step'] ?? 1;
         button:hover {
             background-color: #0056b3;
         }
-        .error {
-            color: red;
-            text-align: center;
-            margin-bottom: 15px;
-        }
     </style>
 </head>
 <body>
+    <form class="rating-container" action="" method="POST" enctype="multipart/form-data">
+        <?php if (!isset($_SESSION['fase'])): ?>
+            <h1>Por favor sube tus documentos</h1>
 
-<div class="container">
-<?php if (!empty($error)): ?>
-    <div class="error"><?= htmlspecialchars($error) ?></div>
-<?php endif; ?>
+            <label for="correo">Correo electrónico:</label>
+            <input type="email" name="correo" id="correo" required>
 
-<?php if ($step === 1): ?>
-    <h1>Sube tus archivos y escribe tu correo</h1>
-    <form action="" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="step" value="1">
+            <label for="file1">Archivo 1:</label>
+            <input type="file" name="file1" id="file1" required>
 
-        <label for="correo">Correo electrónico:</label>
-        <input type="email" name="correo" id="correo" required>
+            <label for="file2">Archivo 2:</label>
+            <input type="file" name="file2" id="file2" required>
 
-        <label for="file1">Archivo 1:</label>
-        <input type="file" name="file1" id="file1" required>
+            <button type="submit">Siguiente</button>
 
-        <label for="file2">Archivo 2:</label>
-        <input type="file" name="file2" id="file2" required>
+        <?php else: ?>
+            <h1>Califica nuestro servicio</h1>
 
-        <button type="submit">Enviar</button>
+            <div class="rating-stars">
+                <input type="radio" id="star1" name="rating" value="5" required>
+                <label for="star1">&#9733;</label>
+                <input type="radio" id="star2" name="rating" value="4">
+                <label for="star2">&#9733;</label>
+                <input type="radio" id="star3" name="rating" value="3">
+                <label for="star3">&#9733;</label>
+                <input type="radio" id="star4" name="rating" value="2">
+                <label for="star4">&#9733;</label>
+                <input type="radio" id="star5" name="rating" value="1">
+                <label for="star5">&#9733;</label>
+            </div>
+
+            <label for="opinion">Déjanos tu opinión:</label>
+            <textarea name="opinion" id="opinion" required></textarea>
+
+            <button type="submit">Finalizar</button>
+        <?php endif; ?>
     </form>
-
-<?php elseif ($step === 2): ?>
-    <h1>Antes de completar la solicitud califica nuestro servicio</h1>
-    <form action="" method="POST">
-        <input type="hidden" name="step" value="2">
-
-        <div class="rating-stars">
-            <input type="radio" id="star5" name="rating" value="5" required><label for="star5">&#9733;</label>
-            <input type="radio" id="star4" name="rating" value="4"><label for="star4">&#9733;</label>
-            <input type="radio" id="star3" name="rating" value="3"><label for="star3">&#9733;</label>
-            <input type="radio" id="star2" name="rating" value="2"><label for="star2">&#9733;</label>
-            <input type="radio" id="star1" name="rating" value="1"><label for="star1">&#9733;</label>
-        </div>
-
-        <label for="opinion">Tu opinión:</label>
-        <textarea name="opinion" id="opinion" rows="5" required></textarea>
-
-        <button type="submit">Enviar valoración y solicitud</button>
-    </form>
-<?php endif; ?>
-
-</div>
-
 </body>
 </html>
