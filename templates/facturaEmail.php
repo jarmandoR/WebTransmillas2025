@@ -86,77 +86,105 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Calificación y envío de archivos</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #f1f1f1;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .rating-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            width: 500px;
-            display: flex;
-            flex-direction: column;
-        }
-        h1 {
-            font-size: 22px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .rating-stars {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-        .rating-stars input {
-            display: none;
-        }
-        .rating-stars label {
-            font-size: 40px;
-            color: #ccc;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-        .rating-stars input:checked ~ label,
-        .rating-stars label:hover,
-        .rating-stars label:hover ~ label {
-            color: #ffcc00;
-        }
-        textarea, input[type="email"], input[type="file"] {
-            width: 100%;
-            margin-top: 10px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 16px;
-        }
-        label {
-            margin-top: 15px;
-            font-weight: bold;
-        }
-        button {
-            margin-top: 20px;
-            padding: 12px;
-            width: 100%;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #f1f1f1, #e0eafc);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .rating-container {
+        background: white;
+        padding: 40px 30px;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        width: 500px;
+        display: flex;
+        flex-direction: column;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 25px;
+        text-align: center;
+        color: #333;
+    }
+
+    .rating-stars {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .rating-stars input {
+        display: none;
+    }
+
+    .rating-stars label {
+        font-size: 50px;
+        color: #ccc;
+        cursor: pointer;
+        transition: transform 0.2s, color 0.3s;
+    }
+
+    .rating-stars input:checked ~ label,
+    .rating-stars label:hover,
+    .rating-stars label:hover ~ label {
+        color: #ffc107;
+        transform: scale(1.1);
+    }
+
+    textarea, input[type="email"], input[type="file"] {
+        width: 100%;
+        margin-top: 12px;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
+
+    textarea:focus, input:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    label {
+        margin-top: 18px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    button {
+        margin-top: 25px;
+        padding: 14px;
+        width: 100%;
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 17px;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+        background: linear-gradient(135deg, #0056b3, #004494);
+        transform: translateY(-2px);
+    }
+</style>
+
 </head>
 <body>
     <form class="rating-container" action="" method="POST" enctype="multipart/form-data">
