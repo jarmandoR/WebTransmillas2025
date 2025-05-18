@@ -98,18 +98,15 @@
 <body>
 
 <form class="rating-container" id="mainForm" action="" method="POST" enctype="multipart/form-data">
-    <!-- Paso 1: Archivos -->
+    <!-- Paso 1: Subida de archivo -->
     <div id="step1">
-        <h2>Sube tus archivos</h2>
+        <h2>Sube tu archivo</h2>
 
         <label for="correo">Correo electrónico:</label>
         <input type="email" name="correo" id="correo" required>
 
-        <label for="file1">Archivo 1:</label>
+        <label for="file1">Archivo:</label>
         <input type="file" name="file1" id="file1" required>
-
-        <label for="file2">Archivo 2:</label>
-        <input type="file" name="file2" id="file2" required>
 
         <button type="button" onclick="mostrarPaso2()">Continuar</button>
     </div>
@@ -146,9 +143,8 @@
 function mostrarPaso2() {
     const correo = document.getElementById('correo').value.trim();
     const file1 = document.getElementById('file1').files.length;
-    const file2 = document.getElementById('file2').files.length;
 
-    if (!correo || file1 === 0 || file2 === 0) {
+    if (!correo || file1 === 0) {
         alert("Por favor completa todos los campos antes de continuar.");
         return;
     }
@@ -160,7 +156,6 @@ function mostrarPaso2() {
 
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
     $EmailEnvio = filter_var($_POST['correo'], FILTER_SANITIZE_EMAIL);
     $opinion = htmlspecialchars($_POST['opinion']);
     $rating = isset($_POST['rating']) ? intval($_POST['rating']) : 0;
@@ -169,14 +164,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Correo electrónico inválido.");
     }
 
-    if ($_FILES['file1']['error'] !== UPLOAD_ERR_OK || $_FILES['file2']['error'] !== UPLOAD_ERR_OK) {
-        die("Error al subir los archivos.");
+    if ($_FILES['file1']['error'] !== UPLOAD_ERR_OK) {
+        die("Error al subir el archivo.");
     }
 
     $file1 = $_FILES['file1']['tmp_name'];
-    $file2 = $_FILES['file2']['tmp_name'];
     $filename1 = basename($_FILES['file1']['name']);
-    $filename2 = basename($_FILES['file2']['name']);
 
     $remitente = "paginaweb@transmillas.com";
     $destinatario = "sharikgonzalezb@gmail.com";
@@ -188,7 +181,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message .= "Opinión: $opinion\n";
 
     $fileContent1 = file_get_contents($file1);
-    $fileContent2 = file_get_contents($file2);
 
     $boundary = md5(time());
     $headers = "From: Transmillas.com <$remitente>\r\n";
@@ -201,24 +193,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $body .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
     $body .= $message . "\r\n\r\n";
 
-    // Adjuntar archivo 1
+    // Adjuntar archivo
     $body .= "--$boundary\r\n";
     $body .= "Content-Type: application/octet-stream; name=\"$filename1\"\r\n";
     $body .= "Content-Transfer-Encoding: base64\r\n";
     $body .= "Content-Disposition: attachment; filename=\"$filename1\"\r\n\r\n";
     $body .= chunk_split(base64_encode($fileContent1)) . "\r\n";
 
-    // Adjuntar archivo 2
-    $body .= "--$boundary\r\n";
-    $body .= "Content-Type: application/octet-stream; name=\"$filename2\"\r\n";
-    $body .= "Content-Transfer-Encoding: base64\r\n";
-    $body .= "Content-Disposition: attachment; filename=\"$filename2\"\r\n\r\n";
-    $body .= chunk_split(base64_encode($fileContent2)) . "\r\n";
-
     $body .= "--$boundary--";
 
     if (mail($destinatario, $asunto, $body, $headers)) {
-        header("Location: https://www.transmillas.com/testWeb/");
+        header("Location: https://transmillas.com/?enviado=ok#factura");
         exit();
     } else {
         echo "Error al enviar el correo. Intenta más tarde.";
