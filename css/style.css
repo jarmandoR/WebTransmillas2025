@@ -14139,9 +14139,10 @@ img.mfp-img {
     margin-right: 10px;
 }
 
-.container-card {
+.reducido {
   transform: scale(0.33);
   transform-origin: top left;
+  display: inline-block;
 }
 
 
