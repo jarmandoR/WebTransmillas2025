@@ -14139,7 +14139,10 @@ img.mfp-img {
     margin-right: 10px;
 }
 
-
+.container-card {
+  transform: scale(0.33);
+  transform-origin: top left; /* Para que no se desplace hacia el centro */
+}
 
 
 
