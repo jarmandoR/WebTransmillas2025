@@ -14141,7 +14141,7 @@ img.mfp-img {
 
 .container-card {
   transform: scale(0.33);
-  transform-origin: top left; /* Para que no se desplace hacia el centro */
+  transform-origin: top left;
 }
 
 
