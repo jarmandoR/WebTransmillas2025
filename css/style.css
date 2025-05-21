@@ -14143,12 +14143,15 @@ img.mfp-img {
 
 .container-card.reducido {
   display: inline-block;
-  width: fit-content;
   padding: 10px;
+  background: #f0f0f0; /* para verificar visualmente si se ajusta */
 }
 
 
-
+.container-card.reducido .card {
+  display: inline-block;
+  width: fit-content;
+}
 
 
 
