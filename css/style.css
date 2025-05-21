@@ -14140,10 +14140,11 @@ img.mfp-img {
     margin-right: 10px;
 }
 
-.reducido {
-  transform: scale(0.33);
-  transform-origin: top left;
+
+.container-card.reducido {
   display: inline-block;
+  width: fit-content;
+  padding: 10px;
 }
 
 
