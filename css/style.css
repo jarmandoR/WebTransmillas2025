@@ -707,7 +707,7 @@ card
 	color: #29293a;
 }
 .card{
-	width: 100%;
+	width: auto;
 	margin: 20px;
 	border-radius: 6px;
 	overflow: hidden;
