@@ -1965,25 +1965,35 @@ document.addEventListener('DOMContentLoaded', function () {
     const fraudEvidenceLabel = fraudOverlay.querySelector('.fraud-alert-evidence-card span');
 
     if (fraudTitle) {
-        fraudTitle.textContent = 'Cuidado con la suplantacion de nuestra empresa';
+        fraudTitle.textContent = 'Alerta por suplantacion de Transmillas';
     }
     if (fraudParagraphs.length > 0) {
-        fraudParagraphs[0].textContent = 'Se estan usando datos e imagenes antiguas de Transmillas para cometer fraude.';
+        fraudParagraphs[0].textContent = 'Personas ajenas a la empresa estan usando datos e imagenes antiguas de Transmillas para cometer fraude.';
     }
     if (fraudParagraphs.length > 1) {
-        fraudParagraphs[1].textContent = 'Antes de realizar pagos o compartir informacion, verifica siempre que estas hablando con nuestros canales oficiales.';
+        fraudParagraphs[1].textContent = 'Antes de pagar o enviar informacion, confirma primero con nuestro contacto oficial. La imagen mostrada abajo es un ejemplo real reportado por clientes.';
     }
     if (fraudItems.length > 0) {
-        fraudItems[0].textContent = 'No consignes ni transfieras dinero sin confirmar primero con Transmillas.';
+        fraudItems[0].textContent = 'Transmillas ya no esta prestando el servicio de compras.';
     }
     if (fraudItems.length > 1) {
-        fraudItems[1].textContent = 'Desconfia de mensajes que usen logos antiguos, cuentas personales o numeros no publicados por la empresa.';
+        fraudItems[1].textContent = 'Recuerde que ya no se está prestando el servicio de  compras.';
     }
     if (fraudItems.length > 2) {
-        fraudItems[2].textContent = 'Si tienes dudas, continua al siguiente aviso y comunicate con nosotros por WhatsApp oficial.';
+        fraudItems[2].textContent = 'Si tienes dudas,comuni­cate con nosotros al cel: 3160490959.';
     }
     if (fraudEvidenceLabel) {
         fraudEvidenceLabel.textContent = 'Ejemplo real de suplantacion reportado por clientes';
+    }
+
+    if (fraudItems.length > 1) {
+        fraudItems[1].textContent = 'No consignes ni transfieras dinero sin confirmar primero con nuestra linea oficial.';
+    }
+    if (fraudItems.length > 2) {
+        fraudItems[2].textContent = 'Si tienes dudas, comunicate con nosotros al 3160490959.';
+    }
+    if (fraudEvidenceLabel) {
+        fraudEvidenceLabel.textContent = 'Ejemplo real de fraude reportado por clientes';
     }
 
     fraudOverlay.style.display = 'none';
