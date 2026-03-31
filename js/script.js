@@ -84,6 +84,12 @@
 					windowReady = true;
 				}
 			});
+		} else {
+			var page = document.querySelector('.page');
+			if (page) {
+				page.style.opacity = '1';
+			}
+			windowReady = true;
 		}
 	});
 
@@ -1931,7 +1937,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeBtn = document.getElementById('close-popup-btn');
 
     // Mostrar el popup al cargar la página
-    popupOverlay.style.display = 'flex';
+    if (!popupOverlay || !closeBtn) return;
+    popupOverlay.style.display = 'none';
+    setTimeout(function () {
+        popupOverlay.style.display = 'flex';
+    }, 300);
 
     // Añadir evento al botón para cerrar el popup
     closeBtn.addEventListener('click', function () {
@@ -1939,3 +1949,64 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 // fin popApp
+
+document.addEventListener('DOMContentLoaded', function () {
+    const fraudOverlay = document.getElementById('fraud-alert-overlay');
+    const fraudCloseBtn = document.getElementById('close-fraud-alert-btn');
+    const fraudContinueBtn = document.getElementById('fraud-alert-continue-btn');
+    const fraudSecondaryCloseBtn = document.getElementById('fraud-alert-close-btn');
+    const popupOverlay = document.getElementById('popup-overlay');
+
+    if (!fraudOverlay || !fraudCloseBtn || !fraudContinueBtn || !fraudSecondaryCloseBtn || !popupOverlay) return;
+
+    const fraudTitle = fraudOverlay.querySelector('h3');
+    const fraudParagraphs = fraudOverlay.querySelectorAll('p');
+    const fraudItems = fraudOverlay.querySelectorAll('.fraud-alert-list li');
+    const fraudEvidenceLabel = fraudOverlay.querySelector('.fraud-alert-evidence-card span');
+
+    if (fraudTitle) {
+        fraudTitle.textContent = 'Cuidado con la suplantacion de nuestra empresa';
+    }
+    if (fraudParagraphs.length > 0) {
+        fraudParagraphs[0].textContent = 'Se estan usando datos e imagenes antiguas de Transmillas para cometer fraude.';
+    }
+    if (fraudParagraphs.length > 1) {
+        fraudParagraphs[1].textContent = 'Antes de realizar pagos o compartir informacion, verifica siempre que estas hablando con nuestros canales oficiales.';
+    }
+    if (fraudItems.length > 0) {
+        fraudItems[0].textContent = 'No consignes ni transfieras dinero sin confirmar primero con Transmillas.';
+    }
+    if (fraudItems.length > 1) {
+        fraudItems[1].textContent = 'Desconfia de mensajes que usen logos antiguos, cuentas personales o numeros no publicados por la empresa.';
+    }
+    if (fraudItems.length > 2) {
+        fraudItems[2].textContent = 'Si tienes dudas, continua al siguiente aviso y comunicate con nosotros por WhatsApp oficial.';
+    }
+    if (fraudEvidenceLabel) {
+        fraudEvidenceLabel.textContent = 'Ejemplo real de suplantacion reportado por clientes';
+    }
+
+    fraudOverlay.style.display = 'none';
+    popupOverlay.style.display = 'none';
+
+    setTimeout(function () {
+        popupOverlay.style.display = 'none';
+        fraudOverlay.style.display = 'flex';
+    }, 280);
+
+    setTimeout(function () {
+        popupOverlay.style.display = 'none';
+    }, 340);
+
+    function showWhatsappPopup() {
+        fraudOverlay.style.display = 'none';
+        popupOverlay.style.display = 'none';
+        setTimeout(function () {
+            popupOverlay.style.display = 'flex';
+        }, 150);
+    }
+
+    fraudCloseBtn.addEventListener('click', showWhatsappPopup);
+    fraudContinueBtn.addEventListener('click', showWhatsappPopup);
+    fraudSecondaryCloseBtn.addEventListener('click', showWhatsappPopup);
+});

@@ -14,7 +14,6 @@
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:100,300,300i,400,500,700,900">
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/fonts.css">
-  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/style.css" id="main-styles-link">
   <link  rel="stylesheet" href="css/chatBot.css" type="text/css"/>
   <!--[if lt IE 10]>
@@ -32,6 +31,141 @@
     position: absolute !important;
     left: -9999px !important;
     top: -9999px !important;
+  }
+}
+
+.fraud-alert-popup {
+  max-width: 560px;
+  width: calc(100% - 28px);
+  padding: 20px 20px 18px;
+  border-radius: 18px;
+  margin: 0 auto;
+}
+
+.fraud-alert-badge {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: #fff3cd;
+  color: #8a5a00;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.fraud-alert-popup h3 {
+  margin-bottom: 10px;
+  color: #9f1d1d;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.fraud-alert-popup p {
+  margin-bottom: 10px;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.fraud-alert-list {
+  margin: 14px 0;
+  padding-left: 18px;
+  color: #4f4f4f;
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.fraud-alert-list li + li {
+  margin-top: 6px;
+}
+
+.fraud-alert-logos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin: 16px 0 14px;
+}
+
+.fraud-alert-logo-card {
+  padding: 14px;
+  border: 1px solid #ececec;
+  border-radius: 14px;
+  background: #f8f8f8;
+}
+
+.fraud-alert-logo-card span {
+  display: block;
+  margin-bottom: 8px;
+  color: #7a7a7a;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.fraud-alert-logo-card img {
+  max-width: 100%;
+  max-height: 72px;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+}
+
+.fraud-alert-logo-card.fraud-alert-evidence-card img {
+  max-height: 250px;
+  width: auto;
+}
+
+.fraud-alert-evidence-card {
+  grid-column: 1 / -1;
+}
+
+.fraud-alert-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.fraud-alert-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 11px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fraud-alert-button-primary {
+  background: #c62828;
+  color: #fff;
+}
+
+.fraud-alert-button-secondary {
+  background: #eef3f7;
+  color: #17324d;
+}
+
+@media (max-width: 767px) {
+  .fraud-alert-popup {
+    width: calc(100% - 20px);
+    padding: 16px 14px;
+    border-radius: 16px;
+  }
+
+  .fraud-alert-popup h3 {
+    font-size: 20px;
+  }
+
+  .fraud-alert-popup p,
+  .fraud-alert-list {
+    font-size: 13px;
+  }
+
+  .fraud-alert-logo-card.fraud-alert-evidence-card img {
+    max-height: 190px;
   }
 }
       .deslizables {
@@ -117,14 +251,6 @@
 </script>
 
 <body>
-  <div class="preloader">
-    <div class="preloader-body">
-      <div class="cssload-container">
-        <div class="cssload-speeding-wheel"></div>
-      </div>
-      <p>Cargando...</p>
-    </div>
-  </div>
   <div class="page">
     <!-- Page Header-->
     <header class="section page-header">
@@ -132,6 +258,31 @@
       [MENU]
     </header>
     <!-- Swiper-->
+    <div class="popup-overlay" id="fraud-alert-overlay">
+  <div class="popup fraud-alert-popup">
+    <button id="close-fraud-alert-btn" class="close-btn">&times;</button>
+    <span class="fraud-alert-badge">Aviso Importante</span>
+    <h3>Cuidado con la suplantaciÃ³n de nuestra empresa</h3>
+    <p><strong>Se estÃ¡n usando datos y logos antiguos de Transmillas para cometer fraude.</strong></p>
+    <p>Antes de realizar pagos o compartir informaciÃ³n, verifica siempre que estÃ¡s hablando con nuestros canales oficiales.</p>
+    <ul class="fraud-alert-list">
+      <li>No consignes ni transfieras dinero sin confirmar primero con Transmillas.</li>
+      <li>Recuerde que ya no se esta prestando el servicio de  compras .</li>
+      <li>Si tienes dudas,comunÃ­cate con nosotros al cel: 3160490959.</li>
+    </ul>
+    <div class="fraud-alert-logos">
+      <div class="fraud-alert-logo-card fraud-alert-evidence-card">
+        <span>Ejemplo real de suplantaciÃ³n reportado por clientes</span>
+        <img src="images/fraude-suplantacion.jpg" alt="Comprobante usado por terceros para suplantar a Transmillas" loading="eager" decoding="async">
+      </div>
+    </div>
+    <div class="fraud-alert-actions">
+      <button id="fraud-alert-continue-btn" class="fraud-alert-button fraud-alert-button-primary" type="button">Entendido</button>
+      <button id="fraud-alert-close-btn" class="fraud-alert-button fraud-alert-button-secondary" type="button">Cerrar aviso</button>
+    </div>
+  </div>
+</div>
+
     <div class="popup-overlay" id="popup-overlay">
   <div class="popup">    
     <button id="close-popup-btn" class="close-btn">&times;</button>     
@@ -143,7 +294,7 @@
     </p>
 
     <a class="whatsapp-button" href="https://api.whatsapp.com/send?phone=573108093773&text=Hola" target="_blank">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="24">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="24" height="24" loading="lazy" decoding="async">
       Comunícate con nosotros
     </a>
   </div>
@@ -1034,7 +1185,7 @@
     <section id="Rastreo" class="section section-lg">
       <div class=" m-0 row justify-content-center">
           <div class="container-card-center">
-         <iframe height="700" width="900"  src="https://sistema.transmillas.com/rastreocliente.php" allowfullscreen  frameborder="0"
+         <iframe height="700" width="900"  src="https://sistema.transmillas.com/rastreocliente.php" allowfullscreen  frameborder="0" loading="lazy"
          style="border:0"></iframe>
          </div>
      </section>
@@ -1089,7 +1240,7 @@
           <div class="container-card">
             <div class="card">
               <figure>
-                <img src="images/sedes/BOGOTA1.jpeg" class="img-fluid" alt="">
+                <img src="images/sedes/BOGOTA1.jpeg" class="img-fluid" alt="" loading="lazy" decoding="async">
               </figure>
               <div class="contenido-card">
                 <div class="title">Bogotá</div>
@@ -1111,7 +1262,7 @@
             </div>
             <div class="card">
               <figure>
-                <img src="images/sedes/ARAUCA.jpg" class="img-fluid" alt="">
+                <img src="images/sedes/ARAUCA.jpg" class="img-fluid" alt="" loading="lazy" decoding="async">
               </figure>
               <div class="contenido-card">
                 <div class="title">Arauca</div>
@@ -1135,7 +1286,7 @@
             </div>
             <div class="card">
               <figure>
-                <img src="images/sedes/bucaramanga.jpg" class="img-fluid" alt="">
+                <img src="images/sedes/bucaramanga.jpg" class="img-fluid" alt="" loading="lazy" decoding="async">
               </figure>
               <div class="contenido-card">
                 <div class="title">Bucaramanga</div>
@@ -1160,7 +1311,7 @@
           </div>
         <div class="card">
           <figure>
-            <img src="images/sedes/BARRANCABERMEJA.jpg" class="img-fluid" alt="">
+            <img src="images/sedes/BARRANCABERMEJA.jpg" class="img-fluid" alt="" loading="lazy" decoding="async">
           </figure>
           <div class="contenido-card">
             <div class="title">Barrancabermeja</div>
@@ -1368,7 +1519,7 @@
         <div class="container-card">
           <div class="card">
             <figure>
-              <img src="images/sedes/sarav.jpg" class="img-fluid" alt="">
+              <img src="images/sedes/sarav.jpg" class="img-fluid" alt="" loading="lazy" decoding="async">
             </figure>
             <div class="contenido-card">
               <div class="title">Saravena</div>
@@ -1392,7 +1543,7 @@
           </div>
           <div class="card">
               <figure>
-                <img src="images/sedes/tame1.jpeg " class="img-fluid" alt="">
+                <img src="images/sedes/tame1.jpeg " class="img-fluid" alt="" loading="lazy" decoding="async">
                 <div class="contenido-card">
                   <div class="title">Tame</div>
                   <p>CARRERA 14 # 13 - 18.</p>
@@ -1418,7 +1569,7 @@
           </div>
           <div class="card">
             <figure>
-              <img src="images/sedes/yopalp.jpg" class="img-fluid" alt="">
+              <img src="images/sedes/yopalp.jpg" class="img-fluid" alt="" loading="lazy" decoding="async">
             </figure>
             <div class="contenido-card">
               <div class="title">Yopal</div>
@@ -1444,7 +1595,7 @@
           </div>
           <div class="card">
             <figure>
-              <img src="images/sedes/villaop.jpg" class="img-fluid" alt="">
+              <img src="images/sedes/villaop.jpg" class="img-fluid" alt="" loading="lazy" decoding="async">
             </figure>
             <div class="contenido-card">
               <div class="title">Villao</div>
@@ -1468,7 +1619,7 @@
           </div>
           <div class="card">
             <figure>
-              <img src="images/sedes/arauquita.jpg" class="img-fluid" alt="">
+              <img src="images/sedes/arauquita.jpg" class="img-fluid" alt="" loading="lazy" decoding="async">
             </figure>
             <div class="contenido-card">
               <div class="title">Arauquita</div>
@@ -1507,7 +1658,7 @@
       <br> 
      </div>
       <div class="cotiza-container">
-        <iframe  src="https://sistema.transmillas.com/cotiza_clientes.php" frameborder="0" allowfullscreen></iframe>
+        <iframe  src="https://sistema.transmillas.com/cotiza_clientes.php" frameborder="0" allowfullscreen loading="lazy"></iframe>
       </div>
    </div>
  </section> -->
@@ -1600,7 +1751,7 @@
           <p>Recuerda que puedes solicitar tu factura por correo.</p>
         </div>
         <div class="row row-20 justify-content-center justify-content-lg-between">
-          <div class="col-md-10 col-lg-6 wow fadeIn"><img class="img-bordered" src="images/contacto.jpg" alt=""
+          <div class="col-md-10 col-lg-6 wow fadeIn"><img class="img-bordered" src="images/contacto.jpg" alt="" loading="lazy" decoding="async"
               width="600" height="360" />
           </div>
           <div class="col-md-10 col-lg-6 col-xl-5">
@@ -1657,9 +1808,9 @@
         <h2>Nuestros Reconocimentos</h2>
         <div class="row no-gutters justify-content-center"></div>
         <div class="galeria">
-           <img src="images/Servicios/colcan.jpg" alt="8px">
-          <img src="images/Servicios/sanar.PNG" alt="">
-          <img src="images/Servicios/estrella.PNG" alt="">
+           <img src="images/Servicios/colcan.jpg" alt="8px" loading="lazy" decoding="async">
+          <img src="images/Servicios/sanar.PNG" alt="" loading="lazy" decoding="async">
+          <img src="images/Servicios/estrella.PNG" alt="" loading="lazy" decoding="async">
         </div>
       </div>
     </section>
@@ -1685,85 +1836,85 @@
           data-stage-padding="0" data-loop="true" data-margin="10" data-mouse-drag="false" data-autoplay="true">
           <blockquote class="quote quote-boxed-sm">
             <div class="quote-author">
-              <div class="author-media"><img src="./images/client/50.png" alt="" width="200" />
+              <div class="author-media"><img src="./images/client/50.png" alt="" width="200" loading="lazy" decoding="async" />
               </div>
             </div>
           </blockquote>
           <blockquote class="quote quote-boxed-sm">
             <div class="quote-author">
-              <div class="author-media"><img src="./images/client/51.png" alt="" width="200" />
+              <div class="author-media"><img src="./images/client/51.png" alt="" width="200" loading="lazy" decoding="async" />
               </div>
             </div>
           </blockquote>
           <blockquote class="quote quote-boxed-sm">
             <div class="quote-author">
-              <div class="author-media"><img src="./images/client/52.png" alt="" width="200" />
+              <div class="author-media"><img src="./images/client/52.png" alt="" width="200" loading="lazy" decoding="async" />
               </div>
             </div>
           </blockquote>
           <blockquote class="quote quote-boxed-sm">
             <div class="quote-author">
-              <div class="author-media"><img src="./images/client/53.png" alt="" width="200" />
+              <div class="author-media"><img src="./images/client/53.png" alt="" width="200" loading="lazy" decoding="async" />
               </div>
             </div>
           </blockquote>
           <blockquote class="quote quote-boxed-sm">
             <div class="quote-author">
-              <div class="author-media"><img src="./images/client/54.jpg" alt="" width="200" />
+              <div class="author-media"><img src="./images/client/54.jpg" alt="" width="200" loading="lazy" decoding="async" />
               </div>
             </div>
           </blockquote>
           <blockquote class="quote quote-boxed-sm">
             <div class="quote-author">
-              <div class="author-media"><img src="./images/client/55.jpg" alt="" width="200" />
+              <div class="author-media"><img src="./images/client/55.jpg" alt="" width="200" loading="lazy" decoding="async" />
               </div>
             </div>
           </blockquote>
           <blockquote class="quote quote-boxed-sm">
             <div class="quote-author">
-              <div class="author-media"><img src="./images/client/56.png" alt="" width="200" />
+              <div class="author-media"><img src="./images/client/56.png" alt="" width="200" loading="lazy" decoding="async" />
               </div>
             </div>
           </blockquote>
           <blockquote class="quote quote-boxed-sm">
             <div class="quote-author">
-              <div class="author-media"><img src="./images/client/50.png" alt="" width="200" />
+              <div class="author-media"><img src="./images/client/50.png" alt="" width="200" loading="lazy" decoding="async" />
               </div>
             </div>
           </blockquote>
           <blockquote class="quote quote-boxed-sm">
             <div class="quote-author">
-              <div class="author-media"><img src="./images/client/51.png" alt="" width="200" />
+              <div class="author-media"><img src="./images/client/51.png" alt="" width="200" loading="lazy" decoding="async" />
               </div>
             </div>
           </blockquote>
           <blockquote class="quote quote-boxed-sm">
             <div class="quote-author">
-              <div class="author-media"><img src="./images/client/52.png" alt="" width="200" />
+              <div class="author-media"><img src="./images/client/52.png" alt="" width="200" loading="lazy" decoding="async" />
               </div>
             </div>
           </blockquote>
           <blockquote class="quote quote-boxed-sm">
             <div class="quote-author">
-              <div class="author-media"><img src="./images/client/53.png" alt="" width="200" />
+              <div class="author-media"><img src="./images/client/53.png" alt="" width="200" loading="lazy" decoding="async" />
               </div>
             </div>
           </blockquote>
           <blockquote class="quote quote-boxed-sm">
             <div class="quote-author">
-              <div class="author-media"><img src="./images/client/54.jpg" alt="" width="200" />
+              <div class="author-media"><img src="./images/client/54.jpg" alt="" width="200" loading="lazy" decoding="async" />
               </div>
             </div>
           </blockquote>
           <blockquote class="quote quote-boxed-sm">
             <div class="quote-author">
-              <div class="author-media"><img src="./images/client/55.jpg" alt="" width="200" />
+              <div class="author-media"><img src="./images/client/55.jpg" alt="" width="200" loading="lazy" decoding="async" />
               </div>
             </div>
           </blockquote>
           <blockquote class="quote quote-boxed-sm">
             <div class="quote-author">
-              <div class="author-media"><img src="./images/client/56.png" alt="" width="200" />
+              <div class="author-media"><img src="./images/client/56.png" alt="" width="200" loading="lazy" decoding="async" />
               </div>
             </div>
           </blockquote>
@@ -1783,7 +1934,7 @@
           </div>
           <!-- <div class=" m-0 row justify-content-center"> -->
             <div class="cotiza-container"> 
-              <iframe  src="../images/CONDICIONES.pdf" frameborder="0" allowfullscreen></iframe>
+              <iframe  src="../images/CONDICIONES.pdf" frameborder="0" allowfullscreen loading="lazy"></iframe>
             </div>
           <!-- </div>      -->
         </div>
@@ -1796,7 +1947,7 @@
           </div>
           <!-- <div class=" m-0 row justify-content-center"> -->
             <div class="cotiza-container"> 
-              <iframe  src="https://www.transmillas.com/ChatbotTransmillas/politicas.html" frameborder="0" allowfullscreen></iframe>
+              <iframe  src="https://www.transmillas.com/ChatbotTransmillas/politicas.html" frameborder="0" allowfullscreen loading="lazy"></iframe>
             </div>
           <!-- </div>      -->
         </div>
@@ -1844,7 +1995,7 @@
           <div class="col-sm-6 col-md-4 wow fadeInLeft">
             
             <div class="blurb-image">
-              <img src="./images/davivienda.jpg" alt="" width="200" height="200"/>
+              <img src="./images/davivienda.jpg" alt="" width="200" height="200" loading="lazy" decoding="async"/>
               <!-- <h6 class="title">Daviplata Nº</h6> -->
               <p class="exeption">Cuenta de ahorros</p>
               <p class="exeption">Nº 457800098420</p>
@@ -1852,7 +2003,7 @@
           </div>
           <div class="col-sm-6 col-md-4 wow fadeInLeft" data-wow-delay="0.1s">
             <div class="blurb-image" id="nequi1">
-              <img src="./images/bancolombia.png"  alt="Imagen Original" id="nequi" alt="" width="200" height="200" onclick="mostrarPopup()"  />
+              <img src="./images/bancolombia.png"  alt="Imagen Original" id="nequi" alt="" width="200" height="200" onclick="mostrarPopup()" loading="lazy" decoding="async" />
               
               <!-- <h6 class="title">Nequi</h6> -->
                <p class="exeption">Cuenta corriente</p>
@@ -1867,7 +2018,7 @@
       </div>
       <div id="popup" class="popupp">
         <span class="cerrar" onclick="cerrarPopup()">&times;</span>
-        <img src="./images/codigoQRBC.png" alt="Imagen">
+        <img src="./images/codigoQRBC.png" alt="Imagen" loading="lazy" decoding="async">
       </div>
     </section>
     
@@ -1927,7 +2078,6 @@
   <!-- Javascript-->
   <script src="js/core.min.js"></script>
   <script src="js/script.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <script>
     $(this).children('img').toggleClass('hide');
           $(this).children('svg').toggleClass('animate');
@@ -1952,7 +2102,6 @@
   });
 
 </script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script>
   function agregarCampo() {
     var divCampos = document.getElementById("campos-dinamicos");
