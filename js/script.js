@@ -1930,34 +1930,14 @@
 	});
 }());
 
-// popApp
-document.addEventListener('DOMContentLoaded', function () {
-    // Seleccionar los elementos del popup y el botón de cerrar
-    const popupOverlay = document.getElementById('popup-overlay');
-    const closeBtn = document.getElementById('close-popup-btn');
-
-    // Mostrar el popup al cargar la página
-    if (!popupOverlay || !closeBtn) return;
-    popupOverlay.style.display = 'none';
-    setTimeout(function () {
-        popupOverlay.style.display = 'flex';
-    }, 300);
-
-    // Añadir evento al botón para cerrar el popup
-    closeBtn.addEventListener('click', function () {
-        popupOverlay.style.display = 'none';
-    });
-});
-// fin popApp
-
 document.addEventListener('DOMContentLoaded', function () {
     const fraudOverlay = document.getElementById('fraud-alert-overlay');
     const fraudCloseBtn = document.getElementById('close-fraud-alert-btn');
     const fraudContinueBtn = document.getElementById('fraud-alert-continue-btn');
     const fraudSecondaryCloseBtn = document.getElementById('fraud-alert-close-btn');
-    const popupOverlay = document.getElementById('popup-overlay');
+    const fraudAlertTriggers = document.querySelectorAll('.js-fraud-alert-trigger');
 
-    if (!fraudOverlay || !fraudCloseBtn || !fraudContinueBtn || !fraudSecondaryCloseBtn || !popupOverlay) return;
+    if (!fraudOverlay || !fraudCloseBtn || !fraudContinueBtn || !fraudSecondaryCloseBtn) return;
 
     const fraudTitle = fraudOverlay.querySelector('h3');
     const fraudParagraphs = fraudOverlay.querySelectorAll('p');
@@ -1997,26 +1977,28 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     fraudOverlay.style.display = 'none';
-    popupOverlay.style.display = 'none';
 
-    setTimeout(function () {
-        popupOverlay.style.display = 'none';
+    function openFraudAlert() {
         fraudOverlay.style.display = 'flex';
-    }, 280);
-
-    setTimeout(function () {
-        popupOverlay.style.display = 'none';
-    }, 340);
-
-    function showWhatsappPopup() {
-        fraudOverlay.style.display = 'none';
-        popupOverlay.style.display = 'none';
-        setTimeout(function () {
-            popupOverlay.style.display = 'flex';
-        }, 150);
     }
 
-    fraudCloseBtn.addEventListener('click', showWhatsappPopup);
-    fraudContinueBtn.addEventListener('click', showWhatsappPopup);
-    fraudSecondaryCloseBtn.addEventListener('click', showWhatsappPopup);
+    function closeFraudAlert() {
+        fraudOverlay.style.display = 'none';
+    }
+
+    fraudAlertTriggers.forEach(function (trigger) {
+        trigger.addEventListener('click', function (event) {
+            event.preventDefault();
+            openFraudAlert();
+        });
+    });
+
+    fraudCloseBtn.addEventListener('click', closeFraudAlert);
+    fraudContinueBtn.addEventListener('click', closeFraudAlert);
+    fraudSecondaryCloseBtn.addEventListener('click', closeFraudAlert);
+    fraudOverlay.addEventListener('click', function (event) {
+        if (event.target === fraudOverlay) {
+            closeFraudAlert();
+        }
+    });
 });

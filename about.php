@@ -1,6 +1,6 @@
 <?php
 
-$title          = "transmillas empresa de carga";
+$title          = "Empresa de transporte de carga en Colombia | Transmillas";
 
 $templateFinal  = implode("", file("./templates/nosotros.html"));
 $templateFinal  = str_replace("[TITULO]"           	, $title          , $templateFinal);

@@ -7,7 +7,7 @@
                   <!-- RD Navbar Toggle-->
                   <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
                   <!-- RD Navbar Brand-->
-                  <div class="rd-navbar-brand"><a class="brand" href="index.php"><img class="brand--dark" src="images/logo1.png" alt="" width="149" height="21"/><img class="brand--light" src="images/logo1.png" alt="" width="149"/></a>
+                  <div class="rd-navbar-brand"><a class="brand" href="index.php" aria-label="Transmillas - Inicio"><img class="brand-horizontal" src="images/logo-horizontal.png" alt="Transmillas"></a>
                   </div>
                 </div>
                 <div class="rd-navbar-main-element">
@@ -16,14 +16,24 @@
                     <ul class="rd-navbar-nav">
                       <li class="rd-nav-item active"><a class="rd-nav-link" href="index.php">Inicio</a>
                       </li>
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="#Rastreo">Rastreo</a></li>
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="#sedes">Sedes</a></li>                           
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="#cotiza">Cotiza</a></li>                                    
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="#servicios">Servicios</a></li>                    
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="#contacto">Contacto</a> </li>   
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="#factura">Solicitar factura</a> </li>   
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="#rastreo-rapido">Rastrear</a></li>
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="#servicios">Servicios</a></li>
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="#sedes">Sedes</a></li>
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="#factura">Factura</a></li>
                       <!-- <li class="rd-nav-item"><a class="rd-nav-link" href="https://sistema.transmillas.com/reclamoscliente.php">PQR</a> </li>          -->
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="templates/terminos.html">PQR</a> </li>   
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="https://sistema.transmillas.com/nueva_plataforma/controller/ReclamosClienteController.php">PQR</a> </li>
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="#contacto">Contacto</a></li>
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="index.php#terminos_condiciones">Términos y condiciones</a></li>
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="index.php#pagos">Medios de pago</a></li>
+                    </ul>
+                    <div class="tm-navbar-actions" aria-label="Opciones para solicitar un servicio">
+                      <a class="tm-navbar-whatsapp" href="https://api.whatsapp.com/send?phone=573108093773&amp;text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20servicios" target="_blank" rel="noopener noreferrer" aria-label="Abrir WhatsApp">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2a9.84 9.84 0 0 0-8.43 14.91L2.05 22l5.21-1.5A9.96 9.96 0 1 0 12.04 2Zm0 17.98a8.1 8.1 0 0 1-4.13-1.13l-.3-.18-3.09.89.92-3.01-.2-.31a8.07 8.07 0 1 1 6.8 3.74Zm4.44-6.06c-.24-.12-1.44-.71-1.66-.79-.22-.08-.38-.12-.54.12-.16.24-.62.79-.76.95-.14.16-.28.18-.52.06-.24-.12-1.03-.38-1.96-1.21a7.36 7.36 0 0 1-1.35-1.68c-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.69 2.58 4.1 3.62.57.25 1.02.39 1.37.5.58.18 1.1.16 1.51.1.46-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28Z"/></svg>
+                        <span>WhatsApp</span>
+                      </a>
+                      <a class="tm-navbar-request" href="#solicitar-servicio">Solicitar aquí</a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

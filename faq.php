@@ -1,6 +1,6 @@
 <?php
 
-$title          = "transmillas empresa de carga";
+$title          = "Preguntas sobre envíos y transporte de carga | Transmillas";
 
 $templateFinal  = implode("", file("./templates/FAQ.html"));
 $templateFinal  = str_replace("[TITULO]"           	, $title          , $templateFinal);
